@@ -5,8 +5,14 @@ interface Game {
   platforms: string[];
 }
 
-interface User{
-  id: string,
-  name: string,
-  avatar: string | null
+interface Token {
+  access_token: string;
+  expires_in: number;
+  token_type: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  avatar: string | null;
 }
