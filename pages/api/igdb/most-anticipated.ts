@@ -36,8 +36,6 @@ async function mostAnticipatedHandler(
 async function getAnticipatedGames() {
   const todayInEpochTime = Math.floor(new Date().getTime() / 1000.0);
 
-  console.log(todayInEpochTime);
-
   const query = `fields id, name, cover, platforms; sort hypes desc;
    where first_release_date > ${todayInEpochTime} & hypes != null;`;
 
