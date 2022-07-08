@@ -1,7 +1,12 @@
+interface Cover {
+  id: number;
+  image_id: string;
+}
+
 interface Game {
   id: string;
   name: string;
-  cover: string;
+  cover: Cover;
   platforms: Platform[];
 }
 
