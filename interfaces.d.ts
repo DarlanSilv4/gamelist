@@ -2,7 +2,14 @@ interface Game {
   id: string;
   name: string;
   cover: string;
-  platforms: string[];
+  platforms: Platform[];
+}
+
+interface Platform {
+  id: number;
+  image_id: string;
+  abbreviation: string;
+  platform_logo: string;
 }
 
 interface Token {
