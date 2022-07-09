@@ -14,7 +14,7 @@ interface Platform {
   id: number;
   image_id: string;
   abbreviation: string;
-  platform_logo: string;
+  name: string;
 }
 
 interface Token {
