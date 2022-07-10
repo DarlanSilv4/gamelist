@@ -35,7 +35,7 @@ async function getComingSoonGames() {
 
   const query = `fields id, name, cover.image_id, platforms.name, 
     platforms.abbreviation; sort first_release_date asc; 
-    where first_release_date > ${todayInEpochTime} & first_release_date != null;`;
+    where first_release_date > ${todayInEpochTime} & first_release_date != null; limit 20;`;
 
   const games = await getGames(query);
 
