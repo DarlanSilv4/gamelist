@@ -37,7 +37,7 @@ async function getAnticipatedGames() {
   const todayInEpochTime = Math.floor(new Date().getTime() / 1000.0);
 
   const query = `fields id, name, cover.image_id, platforms.name, platforms.abbreviation; 
-    sort hypes desc; where first_release_date > ${todayInEpochTime} & hypes != null;`;
+    sort hypes desc; where first_release_date > ${todayInEpochTime} & hypes != null; limit 20;`;
 
   const games = await getGames(query);
 
