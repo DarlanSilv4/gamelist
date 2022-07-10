@@ -35,7 +35,7 @@ async function allTimePopularHandler(
 
 async function getAllTimePopularGames() {
   const query = `fields id, name, cover.image_id, platforms.name, platforms.abbreviation;
-    sort follows desc; where follows != null;`;
+    sort follows desc; where follows != null; limit 20;`;
 
   const games = await getGames(query);
 
