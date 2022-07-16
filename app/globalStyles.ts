@@ -357,6 +357,7 @@ template {
 
 body {
   background-color: #131520;
+  font-family: Roboto;
 }
 
 button {
