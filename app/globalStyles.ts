@@ -363,6 +363,11 @@ body {
 button {
   border: none;
 }
+
+figure{
+  padding: 0;
+  margin: 0;
+}
 `;
 
 export default GlobalStyle;
