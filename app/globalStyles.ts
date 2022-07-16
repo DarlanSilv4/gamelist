@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -354,6 +354,11 @@ template {
 
 /*New Modifications
   ============================================================================ */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 body {
   background-color: #131520;
