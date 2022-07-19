@@ -4,7 +4,6 @@ import { auth } from "@lib/firebaseConfig";
 
 type AuthContextType = {
   user: User | null;
-  signOut: () => Promise<void>;
 };
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
@@ -30,12 +29,8 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
     };
   }, []);
 
-  const signOut = async () => {
-    auth.signOut();
-  };
-
   return (
-    <AuthContext.Provider value={{ user, signOut }}>
+    <AuthContext.Provider value={{ user }}>
       {props.children}
     </AuthContext.Provider>
   );
