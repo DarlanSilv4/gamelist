@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 
 import { auth } from "@firebase/firebaseConfig";
 
-type AuthContextType = [user: User | null];
+type AuthContextType = [User | null, boolean];
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
 
 function AuthProvider(props: React.PropsWithChildren<{}>) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const listener = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const { displayName, photoURL, uid } = user;
 
@@ -20,15 +21,19 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
           avatar: photoURL,
         });
       }
+
+      setIsLoading(false);
     });
 
     return () => {
-      unsubscribe();
+      listener();
     };
-  }, []);
+  }, [auth]);
 
   return (
-    <AuthContext.Provider value={[user]}>{props.children}</AuthContext.Provider>
+    <AuthContext.Provider value={[user, isLoading]}>
+      {props.children}
+    </AuthContext.Provider>
   );
 }
 
