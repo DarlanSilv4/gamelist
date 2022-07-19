@@ -6,7 +6,7 @@ import { useAuth } from "@contexts/AuthContext";
 import Login from "@templates/Login";
 
 function LoginPage() {
-  const { user } = useAuth();
+  const [user] = useAuth();
   const router = useRouter();
 
   useEffect(() => {
