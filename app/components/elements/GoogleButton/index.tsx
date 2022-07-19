@@ -1,12 +1,10 @@
 import Image from "next/image";
 
-import { useAuth } from "@contexts/AuthContext";
+import signInWithGoogle from "@firebase/signInWithGoogle";
 
 import { ButtonContainer } from "./GoogleButton.element";
 
 function GoogleButton() {
-  const { signInWithGoogle } = useAuth();
-
   return (
     <ButtonContainer
       onClick={async () => {
