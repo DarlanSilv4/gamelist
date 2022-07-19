@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { auth } from "@firebase/firebaseConfig";
 
-type AuthContextType = {
-  user: User | null;
-};
+type AuthContextType = [user: User | null];
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
 
@@ -30,9 +28,7 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={[user]}>{props.children}</AuthContext.Provider>
   );
 }
 
