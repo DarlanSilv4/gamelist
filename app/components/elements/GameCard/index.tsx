@@ -20,11 +20,15 @@ function GameCard({ game }: GameCardProps) {
   const coverUrl = getCoverUrl(game.cover);
 
   const getFormattedPlatforms = (platforms: Platform[]) => {
-    const platformsAbbreviation = platforms.map((platform) => {
-      return platform.abbreviation;
-    });
+    if (platforms) {
+      const platformsAbbreviation = platforms.map((platform) => {
+        return platform.abbreviation;
+      });
 
-    return platformsAbbreviation.join(", ");
+      return platformsAbbreviation.join(", ");
+    }
+
+    return "";
   };
 
   return (
