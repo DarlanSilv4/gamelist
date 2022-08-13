@@ -3,31 +3,37 @@ import React, { useEffect, useState } from "react";
 import { auth, database } from "@firebase/firebaseConfig";
 import { child, get, ref, set } from "firebase/database";
 
+import { getGamelist } from "@lib/gamelist";
+
 type AuthContextType = [User | null, boolean];
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
 
 function AuthProvider(props: React.PropsWithChildren<{}>) {
   const [user, setUser] = useState<User | null>(null);
+  const [gamelist, setGamelist] = useState<ListedGame[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const listener = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const { displayName, photoURL, uid } = user;
+    const getUser = auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
 
-        setUser({
-          id: uid,
-          name: displayName || `user - ${uid}`,
-          avatar: photoURL,
-        });
-      }
+      const { displayName, photoURL, uid } = user;
+
+      getGamelist(uid, setGamelist);
+
+      setUser({
+        id: uid,
+        name: displayName || `user - ${uid}`,
+        avatar: photoURL,
+        gamelist: gamelist,
+      });
 
       setIsLoading(false);
     });
 
     return () => {
-      listener();
+      getUser();
     };
   }, [auth]);
 
@@ -52,6 +58,16 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
       writeUserData();
     };
   }, [auth]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    setUser((prev) => {
+      if (!prev) return null;
+
+      return { ...prev, gamelist };
+    });
+  }, [gamelist]);
 
   return (
     <AuthContext.Provider value={[user, isLoading]}>
