@@ -92,13 +92,21 @@ export const Info = styled.div`
 
 export const GameTitle = styled.span`
   cursor: pointer;
+  display: -webkit-box;
   font-size: calc(0.5rem + 1vmin);
   font-weight: 500;
   width: 100%;
 
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
   @media (min-width: 1024px) {
     font-size: 1rem;
+    max-height: 40px;
+    overflow: hidden;
     width: 90%;
+
+    -webkit-line-clamp: 2;
   }
 `;
 
@@ -106,9 +114,15 @@ export const Platform = styled.span`
   display: none;
 
   @media (min-width: 1024px) {
-    display: inline-block;
+    display: -webkit-box;
     font-size: 0.8rem;
-    width: 90%;
+    max-height: 20px;
+    overflow: hidden;
+    width: 80%;
+    white-space: pre-line;
+
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 `;
 
