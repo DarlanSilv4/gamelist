@@ -146,3 +146,67 @@ export const AddButton = styled.button`
     }
   }
 `;
+
+export const StateButton = styled(AddButton)`
+  @media (min-width: 1024px) {
+    align-items: center;
+    background-color: var(--color);
+    color: white;
+    display: flex;
+    font-size: 0.9rem;
+    font-weight: 600;
+    justify-content: center;
+    transition: filter 300ms ease-in-out;
+  }
+
+  &:hover {
+    background-color: var(--color);
+    filter: brightness(120%);
+  }
+
+  & :nth-child(1) {
+    text-align: center;
+    width: 70%;
+  }
+
+  & :nth-child(2) {
+    align-items: center;
+    border-left: 2px solid white;
+    display: flex;
+    font-size: 2rem;
+    height: 70%;
+    justify-content: center;
+    text-align: center;
+    width: 15%;
+  }
+`;
+
+export const Dropdown = styled.ul<{ isOpen: boolean }>`
+  display: flex;
+  background-color: #262a40;
+  border-radius: 1.5vmin;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  width: 90%;
+`;
+
+export const DropdownOptions = styled.li`
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-weight: 500;
+  height: 30px;
+  justify-content: center;
+  list-style: none;
+  margin: 2.5px 0;
+  text-transform: capitalize;
+
+  &:hover {
+    background-color: hsl(231, 25%, 35%);
+  }
+`;
