@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { auth } from "@firebase/firebaseConfig";
+import { auth, database } from "@firebase/firebaseConfig";
+import { child, get, ref, set } from "firebase/database";
 
 type AuthContextType = [User | null, boolean];
 
@@ -27,6 +28,28 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
 
     return () => {
       listener();
+    };
+  }, [auth]);
+
+  useEffect(() => {
+    const writeUserData = auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
+
+      const { displayName, photoURL, uid } = user;
+
+      const snapshot = await get(child(ref(database), `users/${uid}`));
+
+      if (snapshot.exists()) return;
+
+      set(ref(database, `users/${user.uid}`), {
+        id: user.uid,
+        name: displayName,
+        avatar: photoURL,
+      });
+    });
+
+    return () => {
+      writeUserData();
     };
   }, [auth]);
 
