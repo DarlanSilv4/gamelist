@@ -1,6 +1,17 @@
 import styled from "styled-components";
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<{ state?: GameState }>`
+  --color: ${(props) =>
+    props.state === "playing"
+      ? "var(--playing-green)"
+      : props.state === "played"
+      ? "var(--played-blue)"
+      : props.state === "dropped"
+      ? "var(--dropped-red)"
+      : props.state === "wishlist"
+      ? "var(--wishlist-gray)"
+      : "hsl(258, 100%, 56%)"};
+
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -18,7 +29,7 @@ export const CardContainer = styled.div`
     transition: border-color ease-in-out 300ms;
 
     &:hover {
-      border-color: #6421ff;
+      border-color: var(--color);
     }
   }
 `;
