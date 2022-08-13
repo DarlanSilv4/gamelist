@@ -1,5 +1,5 @@
 import { database } from "@firebase/firebaseConfig";
-import { ref, onValue } from "firebase/database";
+import { ref, set, onValue } from "firebase/database";
 
 function getGamelist(
   userId: string,
@@ -21,4 +21,9 @@ function getGamelist(
   });
 }
 
-export { getGamelist };
+async function writeGameInTheList(game: ListedGame, userId: string) {
+  const gamelistRef = ref(database, `users/${userId}/gamelist/${game.game_id}`);
+  await set(gamelistRef, game);
+}
+
+export { getGamelist, writeGameInTheList };
