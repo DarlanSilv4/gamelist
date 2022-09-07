@@ -181,6 +181,33 @@ export const StateButton = styled(AddButton)`
   }
 `;
 
+export const StateLabel = styled.span`
+  align-items: center;
+  background-color: var(--color);
+  border-radius: 0.2rem;
+  bottom: 20%;
+  color: white;
+  display: flex;
+  font-size: 0.9rem;
+  font-weight: 600;
+  height: 12%;
+  justify-content: center;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  text-transform: uppercase;
+  user-select: none;
+  width: 90%;
+  z-index: 20;
+
+  @media (min-width: 1024px) {
+    height: 25%;
+    margin: 0;
+    position: static;
+  }
+`;
+
 export const Dropdown = styled.ul<{ isOpen: boolean }>`
   display: flex;
   background-color: #262a40;
