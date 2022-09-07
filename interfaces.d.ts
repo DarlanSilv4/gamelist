@@ -20,6 +20,8 @@ interface ListedGame {
   state: GameState;
 }
 
+type NavOptions = GameState | "all games";
+
 interface Platform {
   id: number;
   image_id: string;
