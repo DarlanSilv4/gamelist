@@ -60,13 +60,12 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
   }, [auth]);
 
   useEffect(() => {
-    if (!user) return;
+    const updateGamelist = (user: User | null) => {
+      if (!user) return null;
+      return { ...user, gamelist };
+    };
 
-    setUser((prev) => {
-      if (!prev) return null;
-
-      return { ...prev, gamelist };
-    });
+    user && setUser((prevUser) => updateGamelist(prevUser));
   }, [gamelist]);
 
   return (
