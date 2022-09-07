@@ -38,5 +38,6 @@ interface User {
   name: string;
   profile_summary?: string;
   avatar: string | null;
-  gamelist?: ListedGame[];
+  //Firebase does not accept arrays, so the gamelist comes in object formats and then it's convert to array.
+  gamelist?: ListedGame[] | { [key: string]: ListedGame };
 }
