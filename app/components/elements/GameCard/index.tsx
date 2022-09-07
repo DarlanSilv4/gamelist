@@ -20,13 +20,18 @@ import {
   StateButton,
   DropdownOptions,
   Dropdown,
+  StateLabel,
 } from "./GameCard.element";
 
+//If you don't send the gamelist as prop, the game state will be
+//taken from the authenticated user's game list.
 interface GameCardProps {
   game: Game;
+  gamelist?: ListedGame[];
+  isGamelistMode?: boolean;
 }
 
-function GameCard({ game }: GameCardProps) {
+function GameCard({ game, gamelist, isGamelistMode = false }: GameCardProps) {
   const DROPDOWN_OPTIONS: Array<GameState> = [
     "playing",
     "played",
@@ -47,35 +52,45 @@ function GameCard({ game }: GameCardProps) {
   const coverUrl = getCoverUrl(game.cover);
 
   const getFormattedPlatforms = (platforms: Platform[]) => {
-    if (platforms) {
-      const platformsAbbreviation = platforms.map((platform) => {
-        return platform.abbreviation;
-      });
+    if (!platforms) return "";
 
-      return platformsAbbreviation.join(", ");
-    }
+    const platformsAbbreviation = platforms.map((platform) => {
+      return platform.abbreviation;
+    });
 
-    return "";
+    return platformsAbbreviation.join(", ");
   };
 
   const handleAddToList = async (state: GameState) => {
-    if (!user) return;
+    const listedGame = { game_id: game.id, state: state };
 
-    await writeGameInTheList({ game_id: game.id, state: state }, user.id);
+    user && (await writeGameInTheList(listedGame, user.id));
   };
 
   useEffect(() => {
-    const getGameState = () => {
-      if (!user || !user.gamelist) return;
+    const getGameStateFromAuthUserGamelist = () => {
+      if (!user || !user.gamelist || !(user.gamelist instanceof Array)) return;
 
       const listedGame = user.gamelist.find(
         (listedGame) => listedGame.game_id == game.id
       );
 
-      if (listedGame) setGameState(listedGame.state);
+      setGameState(listedGame?.state);
     };
 
-    getGameState();
+    const getGameStateFromGamelistProps = () => {
+      if (!gamelist) return;
+
+      const listedGame = gamelist.find(
+        (listedGame) => listedGame.game_id == game.id
+      );
+
+      setGameState(listedGame?.state);
+    };
+
+    gamelist
+      ? getGameStateFromGamelistProps()
+      : getGameStateFromAuthUserGamelist();
   }, [user]);
 
   return (
@@ -92,7 +107,9 @@ function GameCard({ game }: GameCardProps) {
         </Link>
         <Platform>{getFormattedPlatforms(game.platforms)}</Platform>
 
-        {gameState ? (
+        {isGamelistMode ? (
+          <StateLabel>{gameState}</StateLabel>
+        ) : gameState ? (
           <StateButton onClick={() => setIsDropdownOpen(true)}>
             <span>{gameState}</span>
             <span className="material-icons-round">arrow_drop_down</span>
@@ -104,9 +121,10 @@ function GameCard({ game }: GameCardProps) {
         )}
 
         <Dropdown ref={dropdownNode} isOpen={isDropdownOpen}>
-          {DROPDOWN_OPTIONS.map((state) => {
+          {DROPDOWN_OPTIONS.map((state, index) => {
             return (
               <DropdownOptions
+                key={index}
                 onClick={() => {
                   handleAddToList(state);
                   setIsDropdownOpen(false);
