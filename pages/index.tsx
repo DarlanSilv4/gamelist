@@ -1,7 +1,8 @@
-import { createLocalAxiosInstance } from "@lib/axiosConfig";
+import { InferGetStaticPropsType } from "next";
+
 import Homepage from "@templates/Homepage";
 
-import { InferGetStaticPropsType } from "next";
+import { createLocalAxiosInstance } from "@lib/axiosConfig";
 
 function Home({
   popularGames,
@@ -24,22 +25,26 @@ export async function getStaticProps() {
 
   const localApiAxios = createLocalAxiosInstance();
 
-  const { data: popularGames } = await localApiAxios.get<Game[]>(
-    "/igdb/all-time-popular"
-  );
-  const { data: comingSoonGames } = await localApiAxios.get<Game[]>(
-    "/igdb/coming-soon"
-  );
-  const { data: mostAnticipatedGames } = await localApiAxios.get<Game[]>(
-    "/igdb/most-anticipated"
-  );
+  try {
+    const { data: popularGames } = await localApiAxios.get<Game[]>(
+      "/igdb/all-time-popular"
+    );
+    const { data: comingSoonGames } = await localApiAxios.get<Game[]>(
+      "/igdb/coming-soon"
+    );
+    const { data: mostAnticipatedGames } = await localApiAxios.get<Game[]>(
+      "/igdb/most-anticipated"
+    );
 
-  return {
-    props: {
-      popularGames,
-      comingSoonGames,
-      mostAnticipatedGames,
-    },
-    revalidate: ONE_DAY_IN_SECONDS,
-  };
+    return {
+      props: {
+        popularGames,
+        comingSoonGames,
+        mostAnticipatedGames,
+      },
+      revalidate: ONE_DAY_IN_SECONDS,
+    };
+  } catch (error) {
+    return { notFound: true };
+  }
 }
