@@ -16,7 +16,10 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
 
   useEffect(() => {
     const getUser = auth.onAuthStateChanged(async (user) => {
-      if (!user) return;
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
 
       const { displayName, photoURL, uid } = user;
 
