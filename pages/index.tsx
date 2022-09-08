@@ -1,4 +1,4 @@
-import { InferGetStaticPropsType } from "next";
+import { InferGetServerSidePropsType } from "next";
 
 import Homepage from "@templates/Homepage";
 
@@ -8,7 +8,7 @@ function Home({
   popularGames,
   comingSoonGames,
   mostAnticipatedGames,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <Homepage
       popularGames={popularGames}
@@ -20,9 +20,7 @@ function Home({
 
 export default Home;
 
-export async function getStaticProps() {
-  const ONE_DAY_IN_SECONDS = 86400;
-
+export async function getServerSideProps() {
   const localApiAxios = createLocalAxiosInstance();
 
   try {
@@ -42,7 +40,6 @@ export async function getStaticProps() {
         comingSoonGames,
         mostAnticipatedGames,
       },
-      revalidate: ONE_DAY_IN_SECONDS,
     };
   } catch (error) {
     return { notFound: true };
