@@ -13,7 +13,7 @@ function LoginPage() {
     if (user) {
       router.push("/");
     }
-  }, [user]);
+  }, [user, router]);
 
   return <Login />;
 }
