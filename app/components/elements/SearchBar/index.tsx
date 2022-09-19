@@ -22,7 +22,7 @@ function SearchBar({ value = "" }: { value?: string }) {
 
     const debounce = setTimeout(() => {
       router.push(`/search?title=${title}`);
-    }, 300);
+    }, 500);
 
     clearTimeout(searchDebounce);
     setSearchDebounce(debounce);
