@@ -1,29 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import Default from "@layouts/Default";
+import { useRouter } from "next/router";
 
 import GameCard from "@elements/GameCard";
 import Head from "@elements/Head";
+import Default from "@layouts/Default";
+
 import SearchBar from "@elements/SearchBar";
+
+import { createLocalAxiosInstance } from "@lib/axiosConfig";
 
 import { GamesContainer } from "./Search.element";
 
-interface SearchPage {
-  games: Game[];
-  name: string;
-}
+function SearchPage() {
+  const [games, setGames] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-function SearchPage({ games, name }: SearchPage) {
+  const router = useRouter();
+  const { title } = router.query;
+
+  useEffect(() => {
+    if (title == null) {
+      router.push("/");
+      return;
+    }
+
+    const getGames = async () => {
+      setIsLoading(true);
+
+      const localAxios = createLocalAxiosInstance();
+      const { data: games } = await localAxios.post<Game[]>(
+        "/igdb/search-games",
+        {
+          title,
+        }
+      );
+
+      setGames(games);
+      setIsLoading(false);
+    };
+
+    getGames();
+  }, [title]);
+
+  const displayGameCards = () => {
+    if (games.length > 0) {
+      return games.map((game, id) => {
+        return <GameCard game={game} key={id} />;
+      });
+    }
+
+    return <p>Oops! No Results</p>;
+  };
+
   return (
     <React.Fragment>
       <Head title="Search | Gamelist" />
       <Default>
-        <SearchBar value={name} />
-        <GamesContainer>
-          {games.map((game, index) => {
-            return <GameCard key={index} game={game} />;
-          })}
-        </GamesContainer>
+        <SearchBar value={title ? String(title) : ""} focus={true} />
+        {title &&
+          (isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <GamesContainer>{displayGameCards()}</GamesContainer>
+          ))}
       </Default>
     </React.Fragment>
   );
