@@ -4,7 +4,12 @@ import { useRouter } from "next/router";
 
 import { InputBar, SearchContainer, SearchIcon } from "./SearchBar.element";
 
-function SearchBar({ value = "" }: { value?: string }) {
+interface SearchBarProps {
+  value?: string;
+  focus?: boolean;
+}
+
+function SearchBar({ value = "", focus = false }: SearchBarProps) {
   const router = useRouter();
 
   const [searchText, setSearchText] = useState(value);
@@ -28,6 +33,10 @@ function SearchBar({ value = "" }: { value?: string }) {
     setSearchDebounce(debounce);
   };
 
+  const setFocus = (input: HTMLInputElement | null) => {
+    focus && input && input.focus();
+  };
+
   return (
     <SearchContainer>
       <InputBar
@@ -35,6 +44,7 @@ function SearchBar({ value = "" }: { value?: string }) {
         placeholder="Search game titles..."
         value={searchText}
         onChange={({ target }) => handlerSearch(target.value)}
+        ref={(input) => setFocus(input)}
       />
       <SearchIcon className="material-icons-round">search</SearchIcon>
     </SearchContainer>
