@@ -26,7 +26,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }: StaticProps) {
-  const TEEN_MINUTES = 2 * 60; //in seconds
+  const TEEN_MINUTES = 10 * 60; //in seconds
 
   const snapshot = await get(child(ref(database), `users/${id}`));
 
