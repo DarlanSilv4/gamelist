@@ -69,9 +69,9 @@ function GameCard({ game, gamelist, isGamelistMode = false }: GameCardProps) {
 
   useEffect(() => {
     const getGameStateFromAuthUserGamelist = () => {
-      if (!user || !user.gamelist || !(user.gamelist instanceof Array)) return;
+      if (!user || !user.gamelist) return;
 
-      const listedGame = user.gamelist.find(
+      const listedGame = Object.values(user.gamelist).find(
         (listedGame) => listedGame.game_id == game.id
       );
 
