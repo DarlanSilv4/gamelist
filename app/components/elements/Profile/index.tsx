@@ -48,6 +48,9 @@ function Profile() {
           <Link href={`/user/${user?.id}`} passHref>
             <DropdownItem>My Profile</DropdownItem>
           </Link>
+          <Link href={`/edit-profile`} passHref>
+            <DropdownItem>Edit Profile</DropdownItem>
+          </Link>
           <Link href="/" passHref>
             <DropdownItem
               onClick={() => {
