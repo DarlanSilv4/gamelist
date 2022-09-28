@@ -45,6 +45,7 @@ export const DropdownButton = styled.button<{ isOpen: boolean }>`
 
 export const DropdownOptions = styled.div<{ isOpen: boolean }>`
   background-color: hsl(231, 25%, 20%);
+  border: 2px solid #131520;
   border-radius: 0.3rem;
   color: white;
   display: flex;
