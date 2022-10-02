@@ -14,7 +14,7 @@ export default Profile;
 
 interface StaticProps {
   params: {
-    id: string;
+    username: string;
   };
 }
 
@@ -25,14 +25,19 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params: { id } }: StaticProps) {
+export async function getStaticProps({ params: { username } }: StaticProps) {
   const TEEN_MINUTES = 10 * 60; //in seconds
 
-  const snapshot = await get(child(ref(database), `users/${id}`));
+  const usernameSnapshot = await get(
+    child(ref(database), `usernames/${username}`)
+  );
 
-  if (!snapshot.exists()) return { notFound: true };
+  if (!usernameSnapshot.exists()) return { notFound: true };
 
-  const user = snapshot.toJSON() as User;
+  const userId = String(usernameSnapshot.val());
+
+  const userSnapshot = await get(child(ref(database), `users/${userId}`));
+  const user = userSnapshot.toJSON() as User;
 
   return {
     props: {
