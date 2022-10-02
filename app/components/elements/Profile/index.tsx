@@ -26,7 +26,7 @@ function Profile() {
 
   return (
     <ProfileContainer>
-      <Link href={`/user/${user?.id}`} passHref>
+      <Link href={`/user/${user?.username}`} passHref>
         <Avatar>
           <Image src={user?.avatar || "/me.png"} layout="fill" />
         </Avatar>
@@ -45,7 +45,7 @@ function Profile() {
         </DropdownButton>
 
         <DropdownOptions isOpen={isOpen}>
-          <Link href={`/user/${user?.id}`} passHref>
+          <Link href={`/user/${user?.username}`} passHref>
             <DropdownItem>My Profile</DropdownItem>
           </Link>
           <Link href={`/edit-profile`} passHref>
