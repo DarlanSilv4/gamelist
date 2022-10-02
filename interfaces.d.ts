@@ -38,6 +38,7 @@ interface Token {
 interface User {
   id: string;
   name: string;
+  username?: string;
   profile_summary?: string;
   avatar: string | null;
   gamelist?: ArrayLike<ListedGame>;
