@@ -1,15 +1,19 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
-
-import { ref, set } from "firebase/database";
-import { database } from "@firebase/firebaseConfig";
 
 import { useAuth } from "@contexts/AuthContext";
 
 import Head from "@elements/Head";
 
 import Default from "@layouts/Default";
+
+import {
+  checkUsername,
+  updateName,
+  updateSummary,
+  updateUsername,
+} from "@lib/user";
 
 import {
   Button,
@@ -25,7 +29,7 @@ import {
 } from "./EditProfile.element";
 
 interface ErrorForm {
-  field: "name" | "summary";
+  field: "name" | "summary" | "username";
   message: string;
 }
 
@@ -36,6 +40,7 @@ function EditProfile() {
 
   const [profileName, setProfileName] = useState("");
   const [profileSummaray, setProfileSummaray] = useState("");
+  const [username, setUsername] = useState("");
 
   const [error, setError] = useState<ErrorForm>();
   const [formState, setFormState] = useState<"sent" | "sending">();
@@ -49,6 +54,7 @@ function EditProfile() {
     }
 
     setProfileName(user.name);
+    setUsername(user.username || "");
     setProfileSummaray(user.profile_summary || "");
   }, [user, isLoading]);
 
@@ -64,6 +70,49 @@ function EditProfile() {
     return false;
   };
 
+  const isValidUsername = async (username: string) => {
+    const REG_USERNAME = new RegExp("^([a-zA-Z0-9_]{6,20}$)+");
+    const isUsernameAlreadyExists = await checkUsername(username);
+
+    if (user?.username === username) return true;
+
+    if (!REG_USERNAME.test(username)) {
+      setError({
+        field: "username",
+        message:
+          "The username is Invalid. Please use only letters and underscore. Number of characters must be between 6 to 20.",
+      });
+      return false;
+    }
+
+    if (username.startsWith("_") || username.endsWith("_")) {
+      setError({
+        field: "username",
+        message: "Username cannot start or end with an underscore.",
+      });
+      return false;
+    }
+
+    if (username.includes("__")) {
+      setError({
+        field: "username",
+        message: "Underscore can't be used multiple times in a row.",
+      });
+      return false;
+    }
+
+    if (isUsernameAlreadyExists) {
+      setError({
+        field: "username",
+        message: "This username is already in use.",
+      });
+      return false;
+    }
+
+    setError(undefined);
+    return true;
+  };
+
   const isValidSummary = (summary: string) => {
     if (summary.length <= 160) {
       setError(undefined);
@@ -77,13 +126,15 @@ function EditProfile() {
     return false;
   };
 
-  const sendUserInfo = async (name: string, summary: string) => {
-    if (name !== user?.name) {
-      await set(ref(database, `users/${user?.id}/name`), name);
-    }
-
-    if (summary !== user?.profile_summary) {
-      await set(ref(database, `users/${user?.id}/profile_summary`), summary);
+  const sendUserInfo = async (
+    name: string,
+    summary: string,
+    username: string
+  ) => {
+    if (user) {
+      await updateName(user, name);
+      await updateUsername(user, username);
+      await updateSummary(user, summary);
     }
   };
 
@@ -93,14 +144,20 @@ function EditProfile() {
     const target = e.target as typeof e.target & {
       name: { value: string };
       summary: { value: string };
+      username: { value: string };
     };
 
     const name = target.name.value.trim();
     const summary = target.summary.value.trim();
+    const username = target.username.value.trim();
 
-    if (isValidName(name) && isValidSummary(summary)) {
+    if (
+      isValidName(name) &&
+      isValidSummary(summary) &&
+      (await isValidUsername(username))
+    ) {
       setFormState("sending");
-      await sendUserInfo(name, summary);
+      await sendUserInfo(name, summary, username);
       setFormState("sent");
       return;
     }
@@ -132,17 +189,25 @@ function EditProfile() {
               </HelperText>
             </div>
 
-            {/*
-             <div>
+            <div>
               <Label>
-                <span>Nickname (custom url)</span>
+                <span>Username (custom url)</span>
                 <InputContainer>
-                  <Input required type="text" value="" />
+                  <Input
+                    required
+                    type="text"
+                    name="username"
+                    value={username}
+                    error={error?.field === "username"}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
                   <span className="material-icons-round">edit</span>
                 </InputContainer>
               </Label>
+              <HelperText>
+                {error?.field === "username" && error?.message}
+              </HelperText>
             </div>
-             */}
 
             <div>
               <Label>
@@ -161,14 +226,14 @@ function EditProfile() {
               <HelperText>
                 {error?.field === "summary" && error?.message}
               </HelperText>
-              {formState && (
-                <State state={formState}>
-                  {formState === "sending"
-                    ? "Sending..."
-                    : "Successfully updated your profile. It may take up to 10 minutes for your new information to show, please be patient."}
-                </State>
-              )}
             </div>
+            {formState && (
+              <State state={formState}>
+                {formState === "sending"
+                  ? "Sending..."
+                  : "Successfully updated your profile. It may take up to 10 minutes for your new information to show, please be patient."}
+              </State>
+            )}
             <ButtonWrapper>
               <Button type="submit" value="Submit" />
             </ButtonWrapper>
