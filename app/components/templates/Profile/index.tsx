@@ -25,7 +25,7 @@ import {
 } from "./Profile.element";
 
 interface Query {
-  id?: string;
+  username?: string;
   filter?: string;
 }
 
@@ -141,7 +141,9 @@ function ProfilePage({ user }: { user: User }) {
             return (
               <NavOption
                 key={id}
-                onClick={() => router.push(`${query.id}?filter=${option}`)}
+                onClick={() =>
+                  router.push(`${query.username}?filter=${option}`)
+                }
                 isActive={isActive(option)}
                 gameState={option}
               >
