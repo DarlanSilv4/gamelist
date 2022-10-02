@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { useRouter } from "next/router";
+
 import { auth, database } from "@firebase/firebaseConfig";
 import { child, get, ref, set, onValue } from "firebase/database";
 
@@ -8,6 +10,8 @@ type AuthContextType = [User | null, boolean];
 export const AuthContext = React.createContext<AuthContextType | null>(null);
 
 function AuthProvider(props: React.PropsWithChildren<{}>) {
+  const router = useRouter();
+
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -63,6 +67,18 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
       writeUserData();
     };
   }, [auth]);
+
+  useEffect(() => {
+    const EDIT_PROFILE_PATH = "/edit-profile";
+
+    const sendToEditProfileInCaseUserDoesntHaveUsername = () => {
+      if (user && !user.username && router.asPath !== EDIT_PROFILE_PATH) {
+        router.push(EDIT_PROFILE_PATH);
+      }
+    };
+
+    sendToEditProfileInCaseUserDoesntHaveUsername();
+  });
 
   return (
     <AuthContext.Provider value={[user, isLoading]}>
