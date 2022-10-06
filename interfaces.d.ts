@@ -3,6 +3,10 @@ interface AlternativeNames {
   name: string;
 }
 
+interface Collection {
+  id: string;
+  games: Game[];
+}
 interface Cover {
   id: number;
   image_id: string;
