@@ -1,3 +1,8 @@
+interface AlternativeNames {
+  id: string;
+  name: string;
+}
+
 interface Cover {
   id: number;
   image_id: string;
