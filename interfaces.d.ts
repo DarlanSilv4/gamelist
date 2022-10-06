@@ -27,6 +27,11 @@ interface Game {
 
 type GameState = "playing" | "played" | "dropped" | "wishlist";
 
+interface Genre {
+  id: string;
+  name: string;
+}
+
 // Since the user list of games and the games themselves are from different APIs,
 // it was necessary to create a new interface only for the games that are in the
 // user list.
