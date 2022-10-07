@@ -20,9 +20,24 @@ interface Cover {
 
 interface Game {
   id: string;
-  name: string;
+  aggregated_rating?: number;
+  alternative_names?: AlternativeNames[];
+  category?: number;
+  collection?: Collection;
   cover: Cover;
+  dlcs?: Game[];
+  expansions?: Game[];
+  first_release_date: number;
+  game_modes?: number[];
+  genres?: Genre[];
+  involved_companies?: InvolvedCompanies[];
   platforms: Platform[];
+  screenshots?: Cover[];
+  similar_games?: Game[];
+  slug: string;
+  summary?: string;
+  name: string;
+  website?: Website[];
 }
 
 type GameState = "playing" | "played" | "dropped" | "wishlist";
