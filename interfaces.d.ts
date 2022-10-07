@@ -32,6 +32,13 @@ interface Genre {
   name: string;
 }
 
+interface InvolvedCompany {
+  id: string;
+  company: Company;
+  developer: boolean;
+  publiser: boolean;
+}
+
 // Since the user list of games and the games themselves are from different APIs,
 // it was necessary to create a new interface only for the games that are in the
 // user list.
