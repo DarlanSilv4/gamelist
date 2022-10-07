@@ -70,3 +70,9 @@ interface User {
   avatar: string | null;
   gamelist?: ArrayLike<ListedGame>;
 }
+
+interface Website {
+  id: string;
+  category: string;
+  url: string;
+}
