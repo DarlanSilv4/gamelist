@@ -7,6 +7,9 @@ const GlobalStyle = createGlobalStyle`
   --playing-green: hsla(141, 69%, 45%, 1);
   --dropped-red: hsla(338, 81%, 57%, 1);
   --wishlist-gray: hsla(240, 6%, 53%, 1);
+
+  --background: hsl(231, 25%, 10%);
+  --foreground: hsl(231,25%,20%);
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
