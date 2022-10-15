@@ -28,7 +28,7 @@ interface Game {
   dlcs?: Game[];
   expansions?: Game[];
   first_release_date: number;
-  game_modes?: number[];
+  game_modes?: GameMode[];
   genres?: Genre[];
   involved_companies?: InvolvedCompany[];
   platforms?: Platform[];
