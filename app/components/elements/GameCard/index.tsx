@@ -6,9 +6,8 @@ import Link from "next/link";
 import { useAuth } from "@contexts/AuthContext";
 
 import getCoverUrl from "@lib/getCoverUrl";
-import { writeGameInTheList } from "@lib/gamelist";
 
-import useClickOutside from "hooks/useClickOutside";
+import AddtoListButton from "@elements/AddToListButton";
 
 import {
   CardContainer,
@@ -16,11 +15,6 @@ import {
   Info,
   GameTitle,
   Platform,
-  AddButton,
-  StateButton,
-  DropdownOptions,
-  Dropdown,
-  StateLabel,
 } from "./GameCard.element";
 
 //If you don't send the gamelist as prop, the game state will be
@@ -32,22 +26,9 @@ interface GameCardProps {
 }
 
 function GameCard({ game, gamelist, isGamelistMode = false }: GameCardProps) {
-  const DROPDOWN_OPTIONS: Array<GameState> = [
-    "playing",
-    "played",
-    "dropped",
-    "wishlist",
-  ];
-
   const [user] = useAuth();
 
   const [gameState, setGameState] = useState<GameState>();
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const dropdownNode = useClickOutside<HTMLUListElement>(() =>
-    setIsDropdownOpen(false)
-  );
 
   const coverUrl = getCoverUrl(game.cover);
 
@@ -59,12 +40,6 @@ function GameCard({ game, gamelist, isGamelistMode = false }: GameCardProps) {
     });
 
     return platformsAbbreviation.join(", ");
-  };
-
-  const handleAddToList = async (state: GameState) => {
-    const listedGame = { game_id: game.id, state: state };
-
-    user && (await writeGameInTheList(listedGame, user.id));
   };
 
   useEffect(() => {
@@ -105,36 +80,14 @@ function GameCard({ game, gamelist, isGamelistMode = false }: GameCardProps) {
         <Link href={`/game/${game.id}`} passHref>
           <GameTitle>{game.name}</GameTitle>
         </Link>
-        <Platform>{getFormattedPlatforms(game.platforms)}</Platform>
-
-        {isGamelistMode ? (
-          <StateLabel>{gameState}</StateLabel>
-        ) : gameState ? (
-          <StateButton onClick={() => setIsDropdownOpen(true)}>
-            <span>{gameState}</span>
-            <span className="material-icons-round">arrow_drop_down</span>
-          </StateButton>
-        ) : (
-          <AddButton onClick={async () => await handleAddToList("playing")}>
-            + Add to List
-          </AddButton>
-        )}
-
-        <Dropdown ref={dropdownNode} isOpen={isDropdownOpen}>
-          {DROPDOWN_OPTIONS.map((state, index) => {
-            return (
-              <DropdownOptions
-                key={index}
-                onClick={() => {
-                  handleAddToList(state);
-                  setIsDropdownOpen(false);
-                }}
-              >
-                {state}
-              </DropdownOptions>
-            );
-          })}
-        </Dropdown>
+        <Platform>
+          {game.platforms && getFormattedPlatforms(game.platforms)}
+        </Platform>
+        <AddtoListButton
+          isGamelistMode={isGamelistMode}
+          currentState={gameState}
+          gameId={game.id}
+        />
       </Info>
     </CardContainer>
   );
