@@ -55,6 +55,10 @@ export const Info = styled.div`
   color: white;
   text-align: left;
 
+  & :nth-child(3) {
+    display: none;
+  }
+
   @media (min-width: 1024px) {
     align-items: center;
     background: linear-gradient(
@@ -86,6 +90,10 @@ export const Info = styled.div`
 
     ${CardContainer}:hover & {
       opacity: 1;
+    }
+
+    & :nth-child(3) {
+      display: flex;
     }
   }
 `;
