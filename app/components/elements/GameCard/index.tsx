@@ -70,14 +70,14 @@ function GameCard({ game, gamelist, isGamelistMode = false }: GameCardProps) {
 
   return (
     <CardContainer state={gameState}>
-      <Link href={`/game/${game.id}`} passHref>
+      <Link href={`/game/${game.slug}`} passHref>
         <CoverWrapper>
           <Image src={coverUrl} layout="fill" />
         </CoverWrapper>
       </Link>
 
       <Info>
-        <Link href={`/game/${game.id}`} passHref>
+        <Link href={`/game/${game.slug}`} passHref>
           <GameTitle>{game.name}</GameTitle>
         </Link>
         <Platform>
