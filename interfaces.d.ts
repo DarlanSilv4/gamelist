@@ -36,7 +36,9 @@ interface Game {
   slug: string;
   summary?: string;
   name: string;
-  website?: Website[];
+interface GameMode {
+  id: number;
+  name: string;
 }
 
 type GameState = "playing" | "played" | "dropped" | "wishlist";
