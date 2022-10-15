@@ -37,6 +37,7 @@ interface Game {
   slug: string;
   summary?: string;
   name: string;
+  videos?: Video[];
 interface GameMode {
   id: number;
   name: string;
