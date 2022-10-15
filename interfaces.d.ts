@@ -38,6 +38,9 @@ interface Game {
   summary?: string;
   name: string;
   videos?: Video[];
+  websites?: Website[];
+}
+
 interface GameMode {
   id: number;
   name: string;
