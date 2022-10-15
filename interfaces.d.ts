@@ -30,8 +30,7 @@ interface Game {
   first_release_date: number;
   game_modes?: number[];
   genres?: Genre[];
-  involved_companies?: InvolvedCompanies[];
-  platforms: Platform[];
+  involved_companies?: InvolvedCompany[];
   screenshots?: Cover[];
   similar_games?: Game[];
   slug: string;
@@ -51,7 +50,7 @@ interface InvolvedCompany {
   id: string;
   company: Company;
   developer: boolean;
-  publiser: boolean;
+  publisher: boolean;
 }
 
 // Since the user list of games and the games themselves are from different APIs,
