@@ -31,6 +31,7 @@ interface Game {
   game_modes?: number[];
   genres?: Genre[];
   involved_companies?: InvolvedCompany[];
+  platforms?: Platform[];
   screenshots?: Cover[];
   similar_games?: Game[];
   slug: string;
