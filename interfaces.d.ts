@@ -94,7 +94,7 @@ interface Video {
 }
 
 interface Website {
-  id: string;
-  category: string;
+  id: number;
+  category: number;
   url: string;
 }
