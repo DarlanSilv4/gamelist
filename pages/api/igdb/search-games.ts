@@ -40,7 +40,7 @@ async function searchGamesHandler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function searchGames(title: string, offset = 0, limit = 20) {
-  const query = `search "${title}"; fields id, name, platforms.name, platforms.abbreviation, cover.image_id; 
+  const query = `search "${title}"; fields id, name, platforms.name, platforms.abbreviation, cover.image_id, slug; 
                   limit ${limit}; offset ${offset};`;
 
   const games = await getGames(query);

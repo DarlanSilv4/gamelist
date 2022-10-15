@@ -41,7 +41,7 @@ async function gamesHandler(req: NextApiRequest, res: NextApiResponse) {
 
 async function getGamesFromIGDB(gamesIDs: string[], offset = 0, limit = 50) {
   const gamesIDsConcatened = gamesIDs.concat();
-  const query = `fields name, platforms.name, platforms.abbreviation, cover.image_id; sort name asc; 
+  const query = `fields name, platforms.name, platforms.abbreviation, cover.image_id, slug; sort name asc; 
                   limit ${limit}; offset ${offset}; where id = (${gamesIDsConcatened});`;
 
   const games = await getGames(query);
