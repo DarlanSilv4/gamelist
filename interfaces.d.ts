@@ -87,6 +87,12 @@ interface User {
   gamelist?: ArrayLike<ListedGame>;
 }
 
+interface Video {
+  id: number;
+  name: string;
+  video_id: string;
+}
+
 interface Website {
   id: string;
   category: string;
