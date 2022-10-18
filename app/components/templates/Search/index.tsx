@@ -11,6 +11,7 @@ import SearchBar from "@elements/SearchBar";
 import { createLocalAxiosInstance } from "@lib/axiosConfig";
 
 import { GamesContainer } from "./Search.element";
+import Skeleton from "@elements/Skeleton";
 
 function SearchPage() {
   const [games, setGames] = useState<Game[]>([]);
@@ -60,7 +61,9 @@ function SearchPage() {
         <SearchBar value={title ? String(title) : ""} focus={true} />
         {title &&
           (isLoading ? (
-            <p>Loading...</p>
+            <GamesContainer>
+              <Skeleton height={100} width={180} number={5} />
+            </GamesContainer>
           ) : (
             <GamesContainer>{displayGameCards()}</GamesContainer>
           ))}
