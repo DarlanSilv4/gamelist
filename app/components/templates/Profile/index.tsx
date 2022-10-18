@@ -23,6 +23,7 @@ import {
   NavOption,
   Games,
 } from "./Profile.element";
+import Skeleton from "@elements/Skeleton";
 
 interface Query {
   username?: string;
@@ -153,7 +154,13 @@ function ProfilePage({ user }: { user: User }) {
           })}
         </ProfileNav>
 
-        <Games>{isLoading ? <p>Loading...</p> : displayGameCards()}</Games>
+        <Games>
+          {isLoading ? (
+            <Skeleton height={100} width={180} number={5} />
+          ) : (
+            displayGameCards()
+          )}
+        </Games>
       </Default>
     </React.Fragment>
   );
