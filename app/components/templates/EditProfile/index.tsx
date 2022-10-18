@@ -23,6 +23,7 @@ import {
   Input,
   InputContainer,
   Label,
+  Spinner,
   State,
   TextInput,
   UserInfo,
@@ -167,78 +168,82 @@ function EditProfile() {
     <React.Fragment>
       <Head title="Gamelist" />
       <Default>
-        <Container>
-          <UserInfo onSubmit={(e) => handleSubmit(e)}>
-            <div>
-              <Label>
-                <span>Profile Name</span>
-                <InputContainer>
-                  <Input
-                    type="text"
-                    name="name"
-                    required
-                    value={profileName}
-                    error={error?.field === "name"}
-                    onChange={(e) => setProfileName(e.target.value)}
-                  />
-                  <span className="material-icons-round">edit</span>
-                </InputContainer>
-              </Label>
-              <HelperText>
-                {error?.field === "name" && error?.message}
-              </HelperText>
-            </div>
+        {isLoading || !user ? (
+          <Spinner />
+        ) : (
+          <Container>
+            <UserInfo onSubmit={(e) => handleSubmit(e)}>
+              <div>
+                <Label>
+                  <span>Profile Name</span>
+                  <InputContainer>
+                    <Input
+                      type="text"
+                      name="name"
+                      required
+                      value={profileName}
+                      error={error?.field === "name"}
+                      onChange={(e) => setProfileName(e.target.value)}
+                    />
+                    <span className="material-icons-round">edit</span>
+                  </InputContainer>
+                </Label>
+                <HelperText>
+                  {error?.field === "name" && error?.message}
+                </HelperText>
+              </div>
 
-            <div>
-              <Label>
-                <span>Username (custom url)</span>
-                <InputContainer>
-                  <Input
-                    required
-                    type="text"
-                    name="username"
-                    value={username}
-                    error={error?.field === "username"}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                  <span className="material-icons-round">edit</span>
-                </InputContainer>
-              </Label>
-              <HelperText>
-                {error?.field === "username" && error?.message}
-              </HelperText>
-            </div>
+              <div>
+                <Label>
+                  <span>Username (custom url)</span>
+                  <InputContainer>
+                    <Input
+                      required
+                      type="text"
+                      name="username"
+                      value={username}
+                      error={error?.field === "username"}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <span className="material-icons-round">edit</span>
+                  </InputContainer>
+                </Label>
+                <HelperText>
+                  {error?.field === "username" && error?.message}
+                </HelperText>
+              </div>
 
-            <div>
-              <Label>
-                <span>Summary (Optional)</span>
-                <InputContainer>
-                  <TextInput
-                    name="summary"
-                    rows={5}
-                    error={error?.field === "summary"}
-                    value={profileSummaray}
-                    onChange={(e) => setProfileSummaray(e.target.value)}
-                  />
-                  <span className="material-icons-round">edit</span>
-                </InputContainer>
-              </Label>
-              <HelperText>
-                {error?.field === "summary" && error?.message}
-              </HelperText>
-            </div>
-            {formState && (
-              <State state={formState}>
-                {formState === "sending"
-                  ? "Sending..."
-                  : "Successfully updated your profile. It may take up to 10 minutes for your new information to show, please be patient."}
-              </State>
-            )}
-            <ButtonWrapper>
-              <Button type="submit" value="Submit" />
-            </ButtonWrapper>
-          </UserInfo>
-        </Container>
+              <div>
+                <Label>
+                  <span>Summary (Optional)</span>
+                  <InputContainer>
+                    <TextInput
+                      name="summary"
+                      rows={5}
+                      error={error?.field === "summary"}
+                      value={profileSummaray}
+                      onChange={(e) => setProfileSummaray(e.target.value)}
+                    />
+                    <span className="material-icons-round">edit</span>
+                  </InputContainer>
+                </Label>
+                <HelperText>
+                  {error?.field === "summary" && error?.message}
+                </HelperText>
+              </div>
+              {formState && (
+                <State state={formState}>
+                  {formState === "sending"
+                    ? "Sending..."
+                    : "Successfully updated your profile. It may take up to 10 minutes for your new information to show, please be patient."}
+                </State>
+              )}
+              <ButtonWrapper>
+                <Button type="submit" value="Submit" />
+              </ButtonWrapper>
+            </UserInfo>
+          </Container>
+        )}
       </Default>
     </React.Fragment>
   );

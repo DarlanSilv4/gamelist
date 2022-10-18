@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { Loading } from "@templates/Login/Login.element";
 
 export const Container = styled.div`
   align-items: center;
@@ -107,4 +108,11 @@ export const State = styled.p<{ state: "sent" | "sending" }>`
   color: white;
   font-weight: 600;
   padding: 8px;
+`;
+
+export const Spinner = styled(Loading)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
