@@ -29,9 +29,15 @@ export const Carousel = styled.div`
 export const GameGroup = styled.div<{ index: number }>`
   --carousel-index: ${(props) => props.index};
   --items-per-screen: 5;
-  --gameCard-border: 0.15rem;
-  --gameCard-padding: 0.5rem;
+  --gameCard-border: 0.125rem;
+  --gameCard-padding: 0.55rem;
   --gameCard-margin: 0.05rem;
+
+  @-moz-document url-prefix() {
+    --gameCard-border: 0.15rem;
+    --gameCard-padding: 0.5rem;
+    --gameCard-margin: 0.05rem;
+  }
 
   display: grid;
   gap: 2rem 1rem;
@@ -47,7 +53,7 @@ export const GameGroup = styled.div<{ index: number }>`
 
   & > * {
     height: 35vw;
-    width: calc(100% - 0.1rem);
+    width: calc(100% - 1.6px);
   }
 
   @media (min-width: 520px) {
@@ -69,7 +75,7 @@ export const GameGroup = styled.div<{ index: number }>`
     flex-wrap: nowrap;
     gap: 0;
     justify-content: start;
-    margin: 0.5rem 0;
+    margin: 8px 0;
     overflow: visible;
     transform: translateX(calc(var(--carousel-index) * -100%));
     transition: transform 500ms ease-in-out;
