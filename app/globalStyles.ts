@@ -12,6 +12,31 @@ const GlobalStyle = createGlobalStyle`
   --foreground: hsl(231,25%,20%);
 }
 
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: var(--foreground);
+  overflow-x: auto;
+}
+
+::-webkit-scrollbar
+{
+  width: 6px;
+  height: 6px;
+  background-color: var(--foreground);
+  overflow-x: auto;
+}
+
+::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #aaaaaa;
+  overflow-x: auto;
+}
+
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
