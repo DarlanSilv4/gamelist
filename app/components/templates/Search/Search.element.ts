@@ -7,6 +7,12 @@ export const GamesContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
 
+  & > p {
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
   & > * {
     height: 35vw;
     width: calc(100% - 0.1rem);
