@@ -96,6 +96,12 @@ export const Games = styled.section`
   min-height: 100px;
   width: 100%;
 
+  & > p {
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
   & > * {
     height: 35vw;
     width: calc(100% - 0.1rem);
